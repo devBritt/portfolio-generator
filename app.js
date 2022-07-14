@@ -138,24 +138,11 @@ const promptProject = portfolioData => {
 // function calls
 promptUser()
     .then(promptProject)
-    .then(portfolioData => {
-        // create webpage HTML from user input
-        const pageHTML = generatePage(portfolioData);
-        
-        // create HTML and CSS files for dist
-        fs.writeFile("./dist/index.html", pageHTML, err => {
-            if (err) {
-                console.log(err);
-                return;
-            };
-            console.log("Page created! Check out the index.html in the dist directory to see it!");
-
-            fs.copyFile("./src/style.css", "./dist/style.css", err => {
-                if (err) {
-                    console.log(err);
-                    return;
-                };
-                console.log("Style sheet copied successfully!");
-            })
-        });
-    });
+    .then(portfolioData => generatePage(portfolioData))
+    .then(pageHTML => writeFile(pageHTML))
+    .then(writeFileResponse => {
+        console.log(writeFileResponse);
+        return copyFile();
+    })
+    .then(copyFileResponse => console.log(copyFileResponse))
+    .catch(err => console.log(err));
