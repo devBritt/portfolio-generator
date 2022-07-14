@@ -1,17 +1,8 @@
 // node modules
 const inquirer = require("inquirer");
-// const fs = require("fs");
-// const generatePage = require("./src/page-template.js");
-
-// // global variables
-// const pageHTML = generatePage(user, github);
-
-// // function calls
-// fs.writeFile("./index.html", pageHTML, err => {
-//     if (err) throw err;
-
-//     console.log("Portfolio complete! Check out index.html to see the output!");
-// });
+const fs = require("fs");
+const generatePage = require("./src/page-template.js");
+const { generate } = require("rxjs");
 
 // questions via inquirer
 // function to get user info
@@ -144,7 +135,50 @@ const promptProject = portfolioData => {
     });
 };
 
+// TODO: uncomment below once testing HTML generator is complete
 // function calls
-promptUser()
-    .then(promptProject)
-    .then(portfolioData => console.log(portfolioData));
+// promptUser()
+//     .then(promptProject)
+//     .then(portfolioData => {
+//         const pageHTML = generatePage(mockData);
+
+//         fs.writeFile("./index.html", pageHTML, err => {
+//             if (err) throw new Error(err);
+
+//             console.log("Page created! Check out the index.html in this directory to see it!");
+//         });
+//     });
+
+// TODO: remove this once testing HTML generator is complete
+const mockData = {
+    name: "Brittany",
+    github: "devBritt",
+    confirmAbout: true,
+    about: "Lorem ipsum.",
+    projects: [
+        {
+            name: "Run Buddy",
+            description: "Lorem ipsum.",
+            languages: ["HTML", "CSS"],
+            link: "https://github.com/devBritt/run-buddy",
+            feature: true,
+            confirmAddProject: true
+        },
+        {
+            name: "Taskinator",
+            description: "Lorem ipsum.",
+            languages: ["JavaScript", "HTML", "CSS"],
+            link: "https://github.com/devBritt/taskinator",
+            feature: false,
+            confirmAddProject: false
+        }
+    ]
+};
+
+const pageHTML = generatePage(mockData);
+
+fs.writeFile("./index.html", pageHTML, err => {
+    if (err) throw new Error(err);
+
+    console.log("Page created! Check out the index.html in this directory to see it!");
+});
