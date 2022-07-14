@@ -33,3 +33,6 @@ const copyFile = () => {
         })
     });
 };
+
+// export modules for use
+module.exports = { writeFile, copyFile };
