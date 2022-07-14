@@ -135,50 +135,27 @@ const promptProject = portfolioData => {
     });
 };
 
-// TODO: uncomment below once testing HTML generator is complete
 // function calls
-// promptUser()
-//     .then(promptProject)
-//     .then(portfolioData => {
-//         const pageHTML = generatePage(mockData);
+promptUser()
+    .then(promptProject)
+    .then(portfolioData => {
+        // create webpage HTML from user input
+        const pageHTML = generatePage(portfolioData);
+        
+        // create HTML and CSS files for dist
+        fs.writeFile("./dist/index.html", pageHTML, err => {
+            if (err) {
+                console.log(err);
+                return;
+            };
+            console.log("Page created! Check out the index.html in the dist directory to see it!");
 
-//         fs.writeFile("./index.html", pageHTML, err => {
-//             if (err) throw new Error(err);
-
-//             console.log("Page created! Check out the index.html in this directory to see it!");
-//         });
-//     });
-
-// TODO: remove this once testing HTML generator is complete
-const mockData = {
-    name: "Brittany",
-    github: "devBritt",
-    confirmAbout: true,
-    about: "Lorem ipsum.",
-    projects: [
-        {
-            name: "Run Buddy",
-            description: "Lorem ipsum.",
-            languages: ["HTML", "CSS"],
-            link: "https://github.com/devBritt/run-buddy",
-            feature: true,
-            confirmAddProject: true
-        },
-        {
-            name: "Taskinator",
-            description: "Lorem ipsum.",
-            languages: ["JavaScript", "HTML", "CSS"],
-            link: "https://github.com/devBritt/taskinator",
-            feature: false,
-            confirmAddProject: false
-        }
-    ]
-};
-
-const pageHTML = generatePage(mockData);
-
-fs.writeFile("./dist/index.html", pageHTML, err => {
-    if (err) throw new Error(err);
-
-    console.log("Page created! Check out the index.html in this directory to see it!");
-});
+            fs.copyFile("./src/style.css", "./dist/style.css", err => {
+                if (err) {
+                    console.log(err);
+                    return;
+                };
+                console.log("Style sheet copied successfully!");
+            })
+        });
+    });
